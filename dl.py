@@ -8,30 +8,24 @@ def startDownload():
         ytLink = link.get()
         ytObject = YouTube(ytLink, on_progress_callback=on_progress)
 
-        # Get all available streams
         streams = ytObject.streams.filter(file_extension="mp4")
 
-        # Display available resolutions
         resolutions = [stream.resolution for stream in streams]
         resolution_choice = resolution_combobox.get()
 
-        # Filter streams based on the chosen resolution
         video = streams.filter(resolution=resolution_choice).first()
 
         title.configure(text=ytObject.title, text_color="white")
         finishLabel.configure(text="")
-        progressBar.pack(padx=10, pady=10)  # Show progress bar
-        pPercentage.pack()  # Show percentage label
+        progressBar.pack(padx=10, pady=10) 
+        pPercentage.pack()  
 
-        # Ask the user to choose the download folder
         folder_selected = filedialog.askdirectory()
 
-        # Download the video to the selected folder
         video.download(folder_selected)
 
         finishLabel.configure(text="Download Complete!", text_color="green")
 
-        # Schedule a function call to reset finishLabel and progressBar after 3 seconds
         app.after(3000, reset_labels)
 
     except Exception as e:
@@ -42,7 +36,6 @@ def reset_labels():
     progressBar.set(0)
     pPercentage.configure(text="0%")
 
-    # Hide progress bar and percentage label
     progressBar.pack_forget()
     pPercentage.pack_forget()
 
@@ -55,6 +48,8 @@ def on_progress(stream, chunk, bytes_remaining):
     pPercentage.update()
 
     progressBar.set(float(percent) / 100)
+
+
 
 
 customtkinter.set_appearance_mode("System")
@@ -74,10 +69,9 @@ link.pack()
 resolution_label = customtkinter.CTkLabel(app, text="Choose video resolution:")
 resolution_label.pack()
 
-# Dropdown menu for selecting resolution
 resolutions = ["144p", "240p", "360p", "480p", "720p", "1080p"]
 resolution_combobox = customtkinter.CTkOptionMenu(app, values=resolutions)
-resolution_combobox.set(resolutions[0])  # Set default resolution
+resolution_combobox.set(resolutions[0])
 resolution_combobox.pack()
 
 finishLabel = customtkinter.CTkLabel(app, text="")
