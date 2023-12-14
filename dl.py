@@ -56,6 +56,7 @@ def on_progress(stream, chunk, bytes_remaining):
 
     progressBar.set(float(percent) / 100)
 
+
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
